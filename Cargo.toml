@@ -1,0 +1,11 @@
+[package]
+name = "link_crawler"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+hyper = "0"
+html5ever = "0"
+url = "0"
