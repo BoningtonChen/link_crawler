@@ -44,7 +44,8 @@ fn get_elements_by_name(handle: Handle, element_name: &str, out: &mut Vec<NodeDa
 		ref attrs,
 		ref template_contents,
 		..
-	} = node.data {
+	} =
+		node.data {
 		if &*(name.local) == element_name {
 			out.push(NodeData::Element {
 				name: name.clone(),
