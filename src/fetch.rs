@@ -6,7 +6,7 @@ use std::thread;
 use std::time::Duration;
 use std::sync::mpsc::channel;
 use std::fmt;
-use std::fmt::{Debug, format, Formatter};
+use std::fmt::{format, Formatter};
 
 use self::hyper::Client;
 use self::hyper::status::StatusCode;
@@ -24,7 +24,7 @@ pub enum UrlState {
 }
 
 impl fmt::Display for UrlState {
-	fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
+	fn fmt(&self, f: &mut Formatter) -> fmt::Result {
 		match *self {
 			UrlState::Accessible(ref url) => format!("!! {}", url).fmt(f),
 			UrlState::BadStatus(ref url, ref status) => format!("x {} ({})", url, status).fmt(f),
