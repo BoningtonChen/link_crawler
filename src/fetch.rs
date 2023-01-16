@@ -30,11 +30,16 @@ pub enum UrlState {
 impl fmt::Display for UrlState {
 	fn fmt(&self, f: &mut Formatter) -> fmt::Result {
 		match *self {
-			UrlState::Accessible(ref url) => format!("!! {}", url).fmt(f),
-			UrlState::BadStatus(ref url, ref status) => format!("x {} ({})", url, status).fmt(f),
-			UrlState::ConnectionFailed(ref url) => format!("x {} (Connection failed)", url).fmt(f),
-			UrlState::TimedOut(ref url) => format!("x {} (Timed out)", url).fmt(f),
-			UrlState::Malformed(ref url) => format!("x {} (Malformed)", url).fmt(f),
+			UrlState::Accessible(ref url) =>
+				format!("!! {}", url).fmt(f),
+			UrlState::BadStatus(ref url, ref status) =>
+				format!("X {} ({})", url, status).fmt(f),
+			UrlState::ConnectionFailed(ref url) =>
+				format!("X {} (Connection failed)", url).fmt(f),
+			UrlState::TimedOut(ref url) =>
+				format!("X {} (Timed out)", url).fmt(f),
+			UrlState::Malformed(ref url) =>
+				format!("X {} (Malformed)", url).fmt(f),
 		}
 	}
 }

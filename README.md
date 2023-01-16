@@ -1,26 +1,33 @@
 # Link Crawler
 
 <!-- TOC -->
+
 * [Link Crawler](#link-crawler)
   * [Description](#description)
   * [Get Started](#get-started)
   * [How to use](#how-to-use)
   * [LICENSE](#license)
   * [Copyright](#copyright)
+
 <!-- TOC -->
 
 ## Description
+
 A simple link-crawler built by Rust.
 
 ## Get Started
-You can use`git clone https://github.com/BoningtonChen/link_crawler.git` to clone the repository on GitHub, \
+
+You can use`git clone https://github.com/BoningtonChen/link_crawler.git` to clone the repository on GitHub, 
 or `git clone https://gitee.com/bonington/link_crawler.git` on Gitee.
 
-## How to use 
+## How to use
+
 You can change the Shell Script in `script` folder, replace the example url to your own target url and hit `run`!
 
 ## LICENSE
+
 This proj uses GPL 3.0 LICENSE.
+
 ```asciidoc
                     GNU GENERAL PUBLIC LICENSE
                        Version 3, 29 June 2007
@@ -700,4 +707,5 @@ Public License instead of this License.  But first, please read
 ```
 
 ## Copyright
+
 © Bonity, 2023
