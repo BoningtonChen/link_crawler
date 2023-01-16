@@ -81,3 +81,20 @@ pub fn url_status(domain: &str, path: &str) -> UrlState {
 		Err(_) => UrlState::Malformed(path.to_owned()),
 	}
 }
+
+pub fn fetch_url(url: &Url) -> String {
+	let client = Client::new();
+	let url_string = url.serialize();
+	
+	let mut res = client.get(&url.to_string())
+	                    .send()
+	                    .ok()
+	                    .expect("Could not fetch URL!");
+	
+	let mut body = String::new();
+	
+	match res.read_to_string(&mut body) {
+		Ok(_) => body,
+		Err(_) => String::new()
+	}
+}
