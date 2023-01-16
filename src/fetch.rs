@@ -35,3 +35,12 @@ impl fmt::Display for UrlState {
 	}
 }
 
+fn build_url(domain: &str, path: &str) -> ParseResult<Url> {
+	let base_url_string = format!("https://{}", domain);    // 转换为https解析，原内容为http解析
+	let base_url = Url::parse(&base_url_string).unwrap();
+	
+	let mut raw_url_parser = UrlParser::new();
+	let url_parser = raw_url_parser.base_url(&base_url);
+	
+	url_parser.parse(path)
+}
