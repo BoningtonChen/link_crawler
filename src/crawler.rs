@@ -8,7 +8,7 @@ use url::Url;
 
 use crate::fetch::{fetch_all_urls, url_status, UrlState};
 
-const THREADS: i32 = 40;
+const THREADS: i32 = 20;
 
 pub struct Crawler {
 	to_visit: Arc<Mutex<Vec<String> > >,
