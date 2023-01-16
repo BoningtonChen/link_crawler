@@ -14,6 +14,8 @@ use self::url::{ParseResult, Url, UrlParser};
 
 use hyper::header::parsing;
 
+const TIMEOUT: u64 = 10;
+
 #[derive(Debug, Clone)]
 pub enum UrlState {
 	Accessible(Url),
@@ -43,4 +45,39 @@ fn build_url(domain: &str, path: &str) -> ParseResult<Url> {
 	let url_parser = raw_url_parser.base_url(&base_url);
 	
 	url_parser.parse(path)
+}
+
+pub fn url_status(domain: &str, path: &str) -> UrlState {
+	match build_url(domain, path) {
+		Ok(url) => {
+			let (tx, rx) = channel();
+			let req_tx = tx.clone();
+			let u = url.clone();
+			
+			thread::spawn(move || {
+				let client = Client::new();
+				let url_string = url.serialize();
+				let resp = client.get(&url_string).send();
+				
+				let _ = req_tx.send(match resp {
+					Ok(r) => if let StatusCode::Ok = r.status {
+							UrlState::Accessible(url)
+						}
+						else {
+							UrlState::BadStatus(url, r.status)
+						},
+					Err(_) => UrlState::ConnectionFailed(url),
+				});
+			});
+			
+			thread::spawn(move || {
+				thread::sleep(Duration::from_secs(TIMEOUT));
+				let _ = tx.send(UrlState::TimedOut(u));
+			});
+			
+			let (tx, rx) = channel();
+			rx.recv().unwrap()
+		}
+		Err(_) => UrlState::Malformed(path.to_owned()),
+	}
 }
