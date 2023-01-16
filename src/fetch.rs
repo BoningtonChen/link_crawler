@@ -13,6 +13,8 @@ use self::hyper::status::StatusCode;
 use self::url::{ParseResult, Url, UrlParser};
 
 use hyper::header::parsing;
+use url::form_urlencoded::parse;
+use crate::parse;
 
 const TIMEOUT: u64 = 10;
 
@@ -97,4 +99,11 @@ pub fn fetch_url(url: &Url) -> String {
 		Ok(_) => body,
 		Err(_) => String::new()
 	}
+}
+
+pub fn fetch_all_urls(url: &Url) -> Vec<String> {
+	let html_src = fetch_url(url);
+	let dom = parse::parse_html(&html_src);
+	
+	parse::get_urls(dom.document)
 }
