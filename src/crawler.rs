@@ -1,4 +1,6 @@
+use std::borrow::Borrow;
 use std::collections::HashSet;
+use std::ops::Deref;
 use std::sync::{Arc, Mutex};
 use std::sync::mpsc::{channel, Receiver, Sender};
 use std::thread;
@@ -95,7 +97,7 @@ fn crawl_worker_thread(
 		{
 			let mut active_count_val = active_count.lock().unwrap();
 			*active_count_val -= 1;
-			assert!(active_count_val >= 0);
+			assert!(*active_count_val >= 0);
 		}
 		
 		url_states.send(state).unwrap();
