@@ -101,3 +101,37 @@ fn crawl_worker_thread(
 		url_states.send(state).unwrap();
 	}
 }
+
+pub fn crawl(domain: &str, start_url: &Url) -> Crawler {
+	let to_visit = Arc::new(
+		Mutex::new(vec![start_url.serialize()])
+	);
+	let active_count = Arc::new(
+		Mutex::new(0)
+	);
+	let visited = Arc::new(
+		Mutex::new(HashSet::new())
+	);
+	
+	let (tx, rx) = channel();
+	
+	let crawler = Crawler {
+		to_visit:  to_visit.clone(),
+		active_count: active_count.clone(),
+		url_states: rx,
+	};
+	
+	for _ in 0..THREADS {
+		let domain = domain.to_owned();
+		let to_visit = to_visit.clone();
+		let visited = visited.clone();
+		let active_count = active_count.clone();
+		let tx = tx.clone();
+		
+		thread::spawn(move || {
+			crawl_worker_thread(&domain, to_visit, visited, active_count, tx);
+		});
+	}
+	
+	crawler
+}
